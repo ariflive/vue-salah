@@ -1,0 +1,2 @@
+# vue-salah
+Prayer Timings

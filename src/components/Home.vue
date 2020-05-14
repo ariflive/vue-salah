@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h1>Home</h1>
-    <h2>{{ todayDate | moment('D') }}</h2>
+    <h1>{{ todayDate | moment('D') }} {{ todayDate | moment('MMMM') }} {{ todayDate | moment('Y') }}</h1>
     <hr />
     <b-container>
       <b-row>
@@ -57,10 +56,8 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import moment from 'moment'
 import axios from 'axios'
-import VueMoment from 'vue-moment'
-Vue.use(VueMoment)
 
 export default {
   name: 'Home',
@@ -74,12 +71,15 @@ export default {
 	data() {
 		return {
       calendar: [],
-      todayDate: new Date().toLocaleString()
-		}
+      latitude: 25.280872,
+      longitude: 55.372453,
+      todayDate: new Date(),
+      todayMonth: moment(this.todayDate).format('M'),
+      todayYear: moment(this.todayDate).format('Y')
+    }
 	},
 	mounted () {
-		var url = 'http://api.aladhan.com/v1/calendar?latitude=25.280872&longitude=-55.372453&method=2&month=5&year=2020'
-		console.log(url)
+		var url = 'http://api.aladhan.com/v1/calendar?latitude='+this.latitude+'&longitude=-'+this.longitude+'&method=2&month='+this.todayMonth+'&year='+this.todayYear
 		axios.get(url).then(response => {
 			this.calendar = response.data.data
 		});

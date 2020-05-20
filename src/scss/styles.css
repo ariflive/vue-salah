@@ -1,0 +1,34 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700);
+body {
+  font-family: 'Roboto';
+  background-color: #000;
+}
+
+#app {
+  margin: 0 auto;
+  max-width: 480px;
+  width: 100%;
+  background-color: #fff;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 9px;
+  font-family: 'Roboto';
+  font-weight: 500;
+}
+
+.topbar .left {
+  text-align: left;
+}
+
+.topbar .center {
+  font-size: 19px;
+  text-align: center;
+}
+
+.topbar .right {
+  text-align: right;
+}
+/*# sourceMappingURL=styles.css.map */

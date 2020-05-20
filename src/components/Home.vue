@@ -1,15 +1,20 @@
 <template>
   <div>
-    <h1>{{ today | moment('D') }} {{ today | moment('MMMM') }} {{ today | moment('Y') }}</h1>
-
-    <hooper :settings="hooperSettings">
+    <div class="topbar">
+      <div class="left">
+        left
+      </div>
+      <div class="center">
+        Salah App
+      </div>
+      <div class="right">
+        right
+      </div>
+    </div>
+    
+    <hooper :settings="hooperSettings" pagination="no" ref="carousel" @slide="updateCarousel">
       <slide v-bind:key="item.id" v-for="(item) in calendar">
         <b-alert variant="primary" show>{{ item.date.gregorian.weekday.en }}, {{ item.date.readable }}</b-alert>
-        <b-alert variant="warning" class="text-lg-right" show>
-          <span>{{ item.date.hijri.day }}</span>
-          <span>{{ item.date.hijri.month.ar }}</span>
-          <span>{{ item.date.hijri.year }}</span>
-        </b-alert>
         <b-list-group class="padding">
           <b-list-group-item class="d-flex justify-content-between align-items-center">
             {{ item.timings.Imsak }}
@@ -63,10 +68,10 @@ import 'hooper/dist/hooper.css';
 export default {
   name: 'Home',
   metaInfo: {
-    title: 'Prayer Timings',
+    title: 'Salah App',
     meta: [
       { charset: 'utf-8' },
-      { name: 'description', content: 'Prayer Timings' }
+      { name: 'description', content: 'Salah App' }
     ]
   },
   components: {
@@ -85,17 +90,23 @@ export default {
       hooperSettings: {
         itemsToShow: 1,
         itemsToSlide: 1,
-        initialSlide: this.todayDate,
-        wheelControl: false,
-        infiniteScroll: true
+        initialSlide: moment(this.today).format('D') - 1,
+        wheelControl: true,
+        infiniteScroll: true,
+        centerMode: false,
+        progress: true
       }
     }
 	},
   methods: {
+    updateCarousel(payload) {
+      this.myCarouselData = payload.currentSlide;
+    }
   },
 	mounted () {
 		var url = 'http://api.aladhan.com/v1/calendar?latitude='+this.latitude+'&longitude=-'+this.longitude+'&method=2&month='+this.todayMonth+'&year='+this.todayYear
-		axios.get(url).then(response => {
+    console.log(url)
+    axios.get(url).then(response => {
 			this.calendar = response.data.data
 		});
 	}
@@ -106,16 +117,13 @@ export default {
 .list-group {
   margin-bottom: 2rem;
 }
-.alert {
-  margin-bottom: 0rem;
-}
 h1 {
   text-align:center;
 }
 .hooper {
   margin: 0 auto;
   width: 90%;
-  max-width: 480px;
+  max-width: 420px;
   height: auto;
 }
 </style>
